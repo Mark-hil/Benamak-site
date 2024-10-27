@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manage Portfolio</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h2>Manage Portfolio Items</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in portfolio_items %}
+                <tr>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.description }}</td>
+                    <td><img src="{{ item.image.url }}" alt="Portfolio Image" style="width: 100px;"></td>
+                    <td>
+                        <!-- Edit Button -->
+                        <a href="{% url 'edit_portfolio_item' item.id %}" class="btn btn-primary mr-2">Edit</a>
+
+                        <!-- Delete Button -->
+                        <form action="{% url 'delete_design' item.id %}" method="POST" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

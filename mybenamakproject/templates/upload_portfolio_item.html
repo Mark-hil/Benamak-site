@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Portfolio Item</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom form styling */
+        
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .btn-custom {
+            background-color: #28a745;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 30px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+        
+        .btn-custom:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+        }
+        /* Input and textarea styling */
+        
+        .form-control {
+            border-radius: 30px;
+            padding: 10px 20px;
+            border: 1px solid #ced4da;
+        }
+        
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 8px rgba(128, 189, 255, 0.5);
+        }
+        /* Image preview styling */
+        
+        #image-preview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            display: none;
+            /* Hide until an image is selected */
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <!-- Form on the left side -->
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Upload Portfolio Item</h2>
+
+                <div class="form-container">
+                    <form method="POST" enctype="multipart/form-data" id="upload-form">
+                        {% csrf_token %}
+
+                        <!-- Title Input -->
+                        <div class="form-group">
+                            {{ form.title.label_tag }} {{ form.title }}
+                        </div>
+
+                        <!-- Category Input -->
+                        <div class="form-group">
+                            {{ form.category.label_tag }} {{ form.category }}
+                        </div>
+
+                        <!-- Description Textarea -->
+                        <div class="form-group">
+                            {{ form.description.label_tag }} {{ form.description }}
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="form-group">
+                            {{ form.image.label_tag }} {{ form.image }}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-custom btn-lg">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Image preview on the right side -->
+            <div class="col-md-4">
+                <h4 class="text-center">Image Preview</h4>
+                <img id="image-preview" src="" alt="Selected Image Preview">
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to handle image preview -->
+    <script>
+        // JavaScript to display selected image preview
+        document.getElementById('id_image').addEventListener('change', function(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var imagePreview = document.getElementById('image-preview');
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            }
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

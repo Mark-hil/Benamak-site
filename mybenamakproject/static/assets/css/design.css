@@ -1,0 +1,19 @@
+.design-area {
+    width: 500px;
+    margin: auto;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.toolbar {
+    margin: 20px auto;
+    width: 500px;
+    text-align: left;
+}
+
+.toolbar input,
+.toolbar button {
+    margin: 10px 0;
+    display: block;
+    width: 100%;
+}

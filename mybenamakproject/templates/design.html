@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-shirt Design Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/design.css' %}">
+</head>
+
+<body>
+    <div class="design-area">
+        <canvas id="tshirt-canvas" width="500" height="600"></canvas>
+    </div>
+
+    <div class="toolbar">
+        <label for="tshirt-color">T-shirt Color: </label>
+        <input type="color" id="tshirt-color" value="#ffffff">
+
+        <label for="custom-text">Add Text: </label>
+        <input type="text" id="custom-text" placeholder="Enter text">
+        <button id="add-text">Add Text</button>
+
+        <label for="text-color">Text Color: </label>
+        <input type="color" id="text-color" value="#000000">
+        <label for="font-size">Font Size: </label>
+        <input type="number" id="font-size" value="30">
+
+        <label for="upload-image">Upload Image: </label>
+        <input type="file" id="upload-image">
+
+        <button id="save-design">Save Design</button>
+    </div>
+
+    <script>
+        const canvas = new fabric.Canvas('tshirt-canvas');
+
+        // T-shirt color
+        document.getElementById('tshirt-color').addEventListener('input', function() {
+            document.getElementById('tshirt-canvas').style.backgroundColor = this.value;
+        });
+
+        // Add text
+        document.getElementById('add-text').addEventListener('click', function() {
+            const textValue = document.getElementById('custom-text').value;
+            const textColor = document.getElementById('text-color').value;
+            const fontSize = document.getElementById('font-size').value;
+            if (textValue) {
+                const text = new fabric.Text(textValue, {
+                    fill: textColor,
+                    fontSize: parseInt(fontSize),
+                    left: 100,
+                    top: 100
+                });
+                canvas.add(text);
+            }
+        });
+
+        // Upload image
+        document.getElementById('upload-image').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imgObj = new Image();
+                imgObj.src = event.target.result;
+                imgObj.onload = function() {
+                    const image = new fabric.Image(imgObj);
+                    image.scaleToWidth(200);
+                    canvas.add(image);
+                };
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        // Save design
+        document.getElementById('save-design').addEventListener('click', function() {
+            const design = canvas.toDataURL();
+            fetch("{% url 'save_design' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        design: design
+                    })
+                }).then(response => response.json())
+                .then(data => alert('Design Saved!'));
+        });
+    </script>
+</body>
+
+</html>

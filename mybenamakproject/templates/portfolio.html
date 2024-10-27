@@ -1,0 +1,38 @@
+<!-- portfolio.html -->
+<section id="portfolio" class="portfolio">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Portfolio</h2>
+            <p>Explore our collection of exceptional souvenir designs and printing projects. Our portfolio showcases our passion for quality, creativity, and customer satisfaction. Browse through our featured projects and discover how we bring memories to
+                life:
+            </p>
+        </div>
+
+        <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-app">App</li>
+            <li data-filter=".filter-card">Card</li>
+            <li data-filter=".filter-web">Web</li>
+        </ul>
+
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+            {% for item in portfolio_items %}
+            <div class="col-lg-4 col-md-6 portfolio-item filter-{{ item.category }}">
+                <div class="portfolio-img">
+                    <img src="{{ item.image.url }}" class="img-fluid" alt="{{ item.title }}">
+                </div>
+                <div class="portfolio-info">
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.get_category_display }}</p>
+                    <a href="{{ item.image.url }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ item.title }}">
+                        <i class="bx bx-plus"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <p>From concept to delivery, we strive for excellence in every project. Let our portfolio inspire you, and let's create something amazing together!</p>
+    </div>
+</section>
