@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-2t@+b&db)gsy8hbybc7qi7cy*1-bwdky3)c-%rtpf)0#0y9#bi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['benamak-site.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
